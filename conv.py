@@ -57,4 +57,11 @@ def get_iou(X, Y):
   inter_area = get_area(res)
                    
   return inter_arae/total_area
-  
+                   
+def inverted_dropout(prev_layer, keep_prob = 0.7):
+    keep_prob = keep_prob
+    drop_mat = np.random.rand(prev_layer.shape[0], prev_layer.shape[1]) > keep_prob
+    prev_layer = np.multiply(prev_layer, drop_mat)
+    prev_layer = prev_layer/keep_prob
+                   
+    return prev_layer
