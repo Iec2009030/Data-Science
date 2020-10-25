@@ -25,7 +25,6 @@ def pooling_operation(X, W, type="max", stride=1):
   #initialize the values
   res = []
   (irow, icol) = X.shape
-  
   (new_row, new_col) = ((irow-W)/stride + 1, (icol-W)/stride + 1)
   
   #perform pooling operation
@@ -38,12 +37,24 @@ def pooling_operation(X, W, type="max", stride=1):
   #reshape and return
   res = np.asarray(res).reshape((new_row, new_col))
   return res
-                   
-                   
+                               
 def apply_padding(X, padding=0):
    (row, col) = X.shape
    a = np.zeros((row + 2*padding, col + 2*padding))
    a[padding:padding+row, padding: padding+col] = X
    return a
+
                    
+def get_iou(X, Y):
+  res =[None]*4
+  res[0] = max(X[0], y[0])
+  res[2] = min(X[2], y[2])
+  res[1] = max(X[1], Y[1])
+  res[3] = min(X[3], y[3])
+                   
+  # get the area
+  total_area = get_area(X) + get_area(Y)
+  inter_area = get_area(res)
+                   
+  return inter_arae/total_area
   
