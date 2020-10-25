@@ -38,4 +38,12 @@ def pooling_operation(X, W, type="max", stride=1):
   #reshape and return
   res = np.asarray(res).reshape((new_row, new_col))
   return res
+                   
+                   
+def apply_padding(X, padding=0):
+   (row, col) = X.shape
+   a = np.zeros((row + 2*padding, col + 2*padding))
+   a[padding:padding+row, padding: padding+col] = X
+   return a
+                   
   
