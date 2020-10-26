@@ -65,3 +65,36 @@ def inverted_dropout(prev_layer, keep_prob = 0.7):
     prev_layer = prev_layer/keep_prob
                    
     return prev_layer
+
+                   
+def conv_2D(X, F, stride=1, padding=0):
+
+  #input shape 
+  res = []
+  (inp_channel, inp_row, inp_col) = X.shape
+  (out_channel, inp_channel, filt_row, filt_col) = F.shape
+
+  # new shape
+  out_row = (inp_row - filt_row + 2* padding)/stride + 1
+  out_col = (inp_col- filt_col + 2*padding)/stride + 1
+  rres = []
+
+  # convolve
+  for l in range(0, out_channel):
+    for i in range(0, inp_row):
+      for j in range(0, inp_col):
+        sum = 0
+        for k in range(0, inp_channel):
+          inter_mat = X[k, i: i+filt_row, j:j + filt_col]
+          if (inter_mat.shape[0] == filt_row and inter_mat.shape[1] == filt_col):
+            sum = sum + np.sum(np.multiply(inter_mat, F[l,k,:,:]))
+          else:
+            break
+        res.append(sum)
+    a = np.asarray(res).reshape((out_row, out_col))
+    a.tolist()
+    rres.append(a)
+    res = []
+
+  rres = np.asarray(rres)
+  return rres
